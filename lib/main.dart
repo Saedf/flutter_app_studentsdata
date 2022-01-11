@@ -36,7 +36,10 @@ class MyApp extends StatelessWidget {
 }
 
 class _AddStudentForm extends StatelessWidget {
-  const _AddStudentForm({Key? key}) : super(key: key);
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNamrController = TextEditingController();
+  final TextEditingController _courseController = TextEditingController();
+  final TextEditingController _scoreController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +48,14 @@ class _AddStudentForm extends StatelessWidget {
         title: Text('Add New Student'),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          try {
+            saveStudent(_firstNameController.text, _lastNamrController.text,
+                _courseController.text, int.parse(_scoreController.text));
+          } catch (e) {
+            debugPrint(e.toString());
+          }
+        },
         label: Row(
           children: const [
             Icon(Icons.check),
@@ -57,8 +67,9 @@ class _AddStudentForm extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
-          children: const [
+          children: [
             TextField(
+              controller: _firstNameController,
               decoration: InputDecoration(
                 label: Text('First Name'),
               ),
@@ -67,6 +78,7 @@ class _AddStudentForm extends StatelessWidget {
               height: 8,
             ),
             TextField(
+              controller: _lastNamrController,
               decoration: InputDecoration(
                 label: Text('First Name'),
               ),
@@ -75,6 +87,7 @@ class _AddStudentForm extends StatelessWidget {
               height: 8,
             ),
             TextField(
+              controller: _courseController,
               decoration: InputDecoration(
                 label: Text('Course'),
               ),
@@ -83,6 +96,8 @@ class _AddStudentForm extends StatelessWidget {
               height: 8,
             ),
             TextField(
+              keyboardType: TextInputType.number,
+              controller: _scoreController,
               decoration: InputDecoration(
                 label: Text('Score'),
               ),
