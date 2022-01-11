@@ -48,10 +48,15 @@ class _AddStudentForm extends StatelessWidget {
         title: Text('Add New Student'),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
+        onPressed: () async {
           try {
-            saveStudent(_firstNameController.text, _lastNamrController.text,
-                _courseController.text, int.parse(_scoreController.text));
+            final newstudentDat = await saveStudent(
+                _firstNameController.text,
+                _lastNamrController.text,
+                _courseController.text,
+                int.parse(_scoreController
+                    .text)); //.then((value) => Navigator.pop(context));
+            Navigator.pop(context, newstudentDat);
           } catch (e) {
             debugPrint(e.toString());
           }
@@ -109,21 +114,27 @@ class _AddStudentForm extends StatelessWidget {
   }
 }
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Android Expert'),
+          title: const Text('Android Expert'),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton.extended(
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
+            onPressed: () async {
+              final result = await Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => _AddStudentForm(),
               ));
+              setState(() {});
             },
             label: Row(
               children: [
@@ -136,6 +147,8 @@ class HomeScreen extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.hasData && snapshot.data != null) {
               return ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  padding: EdgeInsets.only(bottom: 84),
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
                     return _Student(
