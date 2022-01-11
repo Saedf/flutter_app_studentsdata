@@ -17,18 +17,79 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+          inputDecorationTheme:
+              InputDecorationTheme(border: OutlineInputBorder()),
+          // This is the theme of your application.
+          //
+          // Try running your application with "flutter run". You'll see the
+          // application has a blue toolbar. Then, without quitting the app, try
+          // changing the primarySwatch below to Colors.green and then invoke
+          // "hot reload" (press "r" in the console where you ran "flutter run",
+          // or simply save your changes to "hot reload" in a Flutter IDE).
+          // Notice that the counter didn't reset back to zero; the application
+          // is not restarted.
+          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
+              .copyWith(secondary: const Color(0xff16e5a7))),
+      home: const HomeScreen(),
+    );
+  }
+}
+
+class _AddStudentForm extends StatelessWidget {
+  const _AddStudentForm({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Add New Student'),
       ),
-      home: HomeScreen(),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {},
+        label: Row(
+          children: const [
+            Icon(Icons.check),
+            Text('Save'),
+          ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: const [
+            TextField(
+              decoration: InputDecoration(
+                label: Text('First Name'),
+              ),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            TextField(
+              decoration: InputDecoration(
+                label: Text('First Name'),
+              ),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            TextField(
+              decoration: InputDecoration(
+                label: Text('Course'),
+              ),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            TextField(
+              decoration: InputDecoration(
+                label: Text('Score'),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -42,6 +103,19 @@ class HomeScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text('Android Expert'),
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: FloatingActionButton.extended(
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => _AddStudentForm(),
+              ));
+            },
+            label: Row(
+              children: [
+                Icon(Icons.add),
+                Text('Add Student'),
+              ],
+            )),
         body: FutureBuilder<List<StudentData>>(
           future: getStudents(),
           builder: (context, snapshot) {
