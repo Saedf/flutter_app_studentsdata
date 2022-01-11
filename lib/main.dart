@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_studentsdata/data.dart';
 
 void main() {
+  getStudents();
   runApp(const MyApp());
 }
 
